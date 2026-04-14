@@ -1,0 +1,24 @@
+Column Name,Data Type,Description
+Year Name,Text,"Calendar year of the spend record (e.g., 2025)"
+Year Month,Text,"Calendar year and month of the spend record (e.g., 2025-01 for January 2025)"
+Business Entity Type,Text,"Standardized classification of the customer's business entity type (e.g., Hotel, Restaurant, Healthcare)"
+Country,Text,Standardized country of the customer location. This report is filtered to US customers only
+Customer Market Segment Id,Text,Identifier for the market segment the customer belongs to (e.g.  Lodging | Healthcare)
+Client ID,Text,Unique identifier for the top-level parent account / client. Used to group individual customer locations under a parent organization. Excludes Marriott International
+Customer Id,Text,Unique identifier for an individual customer location or account
+Customer Brand Id,Text,Identifier for the brand the customer operates under (e.g.  a hotel brand within a parent hotel group)
+Customer Brand Parent Id,Text,Identifier for the parent brand that the customer brand rolls up to
+City,Text,Standardized city name of the customer's physical location
+State,Text,Standardized US state abbreviation of the customer's physical location
+Zip,Text,Standardized ZIP/postal code of the customer's physical location
+Number of Rooms,Number,Number of rooms at the customer's property. Primarily applicable to hospitality (hotel) customers; may be NULL for non-hospitality accounts
+Ecommerce Status,Text,Indicates the customer's status on the ecommerce ordering platform (e.g.  Active / Inactive)
+Distributor ID,Text,Unique identifier for the distributor warehouse that fulfilled the spend transactions
+Distributor Group,Text,Grouping or classification that the distributor belongs to (e.g.  a national distributor group)
+Manufacturer ID,Text,Unique identifier for the manufacturer of the purchased products
+Category ID,Text,Alphanumeric code that uniquely identifies the product category at the most granular level
+Category Level 1,Text,"Highest-level product category (e.g., Food, Beverage, Disposables, Chemicals and Cleaning, Room and Spa)"
+Category Level 2,Text,Second-level product category that falls within a Category Level 1 segment
+Category Level 3,Text,Third-level product category that falls within a Category Level 2 family
+Category Level 4,Text,Most granular product category classification. Falls within a Category Level 3 class
+Spend Random Factor,Number (USD),"Total actual spend in USD for the current year (2025), aggregated across all matching dimension combinations in the result set (Randomized)"

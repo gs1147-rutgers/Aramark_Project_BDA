@@ -1,0 +1,7 @@
+# Raw data — too large for GitHub (8.1 GB)
+Andrew_Meszaros_SRF_2026-04-01-0936.csv
+
+# Python cache
+__pycache__/
+*.pyc
+.DS_Store
