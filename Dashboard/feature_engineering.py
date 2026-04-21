@@ -1,3 +1,5 @@
+import os
+_HERE = os.path.dirname(os.path.abspath(__file__)) + os.sep
 """
 Feature Engineering — Board-Level Intelligence
 ===============================================
@@ -20,7 +22,7 @@ from sklearn.ensemble import RandomForestRegressor
 import warnings
 warnings.filterwarnings("ignore")
 
-DIR = "/Users/gagandeepsingh/Downloads/Aramark/"
+DIR = _HERE
 
 print("Loading customer_detail …")
 df = pd.read_parquet(DIR + "customer_detail.parquet")
