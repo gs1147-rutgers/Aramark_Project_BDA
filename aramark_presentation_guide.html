@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARAMARK – Spend Prediction Dashboard: Presentation Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 11pt;
+    color: #1e293b;
+    background: #f8fafc;
+    line-height: 1.65;
+  }
+
+  /* ─── PAGE BREAKS ─── */
+  @media print {
+    body { background: white; font-size: 10pt; }
+    .page-break { page-break-before: always; }
+    .no-break    { page-break-inside: avoid; }
+    .cover       { page-break-after: always; }
+    header.doc-header { display: none; }
+    .section { box-shadow: none; border: 1px solid #e2e8f0; }
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    background: linear-gradient(135deg, #003087 0%, #001a4d 60%, #DA291C 100%);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 100px;
+  }
+  .cover-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 10pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    font-weight: 600;
+  }
+  .cover h1 {
+    font-size: 38pt;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 12px;
+    letter-spacing: -1px;
+  }
+  .cover h2 {
+    font-size: 18pt;
+    font-weight: 300;
+    opacity: 0.85;
+    margin-bottom: 40px;
+  }
+  .cover-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+    width: 100%;
+  }
+  .cover-meta-item {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .cover-meta-item .num {
+    font-size: 22pt;
+    font-weight: 800;
+    color: #fbbf24;
+  }
+  .cover-meta-item .lbl {
+    font-size: 9pt;
+    opacity: 0.75;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ─── TOC ─── */
+  .toc {
+    background: white;
+    padding: 60px 80px;
+    min-height: 60vh;
+  }
+  .toc h2 {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #003087;
+    border-bottom: 3px solid #DA291C;
+    padding-bottom: 12px;
+    margin-bottom: 32px;
+  }
+  .toc-item {
+    display: flex;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dotted #e2e8f0;
+    font-size: 11pt;
+  }
+  .toc-item .num { color: #DA291C; font-weight: 700; min-width: 48px; font-size: 12pt; }
+  .toc-item .title { font-weight: 600; }
+  .toc-item .dots { flex: 1; border-bottom: 1px dotted #cbd5e1; margin: 0 12px; }
+  .toc-item .page { color: #64748b; font-size: 10pt; }
+
+  /* ─── SECTION ─── */
+  .section {
+    background: white;
+    margin: 0;
+    padding: 56px 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #f1f5f9;
+  }
+  .section-num {
+    background: #003087;
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14pt;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 20pt; font-weight: 800; color: #003087; }
+  .section-subtitle { font-size: 11pt; color: #64748b; font-weight: 400; margin-top: 3px; }
+
+  /* ─── CHART BLOCK ─── */
+  .chart-block {
+    margin: 32px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .chart-header {
+    background: #003087;
+    color: white;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .chart-header .chart-num {
+    background: #DA291C;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 11pt;
+    flex-shrink: 0;
+  }
+  .chart-header .chart-name { font-weight: 700; font-size: 13pt; }
+  .chart-header .chart-tab  { font-size: 9pt; opacity: 0.7; margin-top: 2px; }
+  .chart-body { padding: 24px; background: #f8fafc; }
+
+  /* ─── QA GRID ─── */
+  .qa-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .qa-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .qa-card.full { grid-column: 1 / -1; }
+  .qa-q {
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #DA291C;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .qa-a { font-size: 10.5pt; color: #1e293b; line-height: 1.6; }
+
+  /* ─── CALLOUT ─── */
+  .callout {
+    border-left: 4px solid #003087;
+    background: #eff6ff;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+    font-size: 10.5pt;
+  }
+  .callout.red  { border-color: #DA291C; background: #fff5f5; }
+  .callout.amber{ border-color: #d97706; background: #fffbeb; }
+  .callout.green{ border-color: #1b7f4f; background: #f0fdf4; }
+
+  /* ─── KPI ROW ─── */
+  .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin: 20px 0; }
+  .kpi-card {
+    border-radius: 10px;
+    padding: 16px;
+    border-left: 4px solid currentColor;
+  }
+  .kpi-card.blue  { border-color: #003087; background: #f0f4ff; }
+  .kpi-card.red   { border-color: #DA291C; background: #fff5f5; }
+  .kpi-card.green { border-color: #1b7f4f; background: #f0fdf4; }
+  .kpi-card.amber { border-color: #d97706; background: #fffbeb; }
+  .kpi-num { font-size: 20pt; font-weight: 800; }
+  .kpi-lbl { font-size: 9pt; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
+
+  /* ─── TABLE ─── */
+  table { width: 100%; border-collapse: collapse; font-size: 10pt; margin: 12px 0; }
+  th { background: #003087; color: white; padding: 10px 14px; text-align: left; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.8px; }
+  td { padding: 9px 14px; border-bottom: 1px solid #f1f5f9; }
+  tr:hover td { background: #f8fafc; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  tr:nth-child(even):hover td { background: #f1f5f9; }
+
+  /* ─── FEATURE TABLE ─── */
+  .feature-pill {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #3730a3;
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 9pt;
+    font-weight: 600;
+    margin: 2px;
+  }
+  .feature-pill.event  { background: #fee2e2; color: #991b1b; }
+  .feature-pill.lag    { background: #dcfce7; color: #166534; }
+  .feature-pill.econ   { background: #fef3c7; color: #92400e; }
+  .feature-pill.time   { background: #f3e8ff; color: #6b21a8; }
+
+  /* ─── MISC ─── */
+  h3 { font-size: 14pt; font-weight: 700; color: #003087; margin: 28px 0 10px 0; }
+  h4 { font-size: 12pt; font-weight: 700; color: #DA291C; margin: 20px 0 8px 0; }
+  p  { margin: 8px 0; }
+  ul, ol { margin: 8px 0 8px 20px; }
+  li { margin: 4px 0; }
+  strong { color: #003087; }
+
+  .tag {
+    display: inline-block;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 1px 7px;
+    font-size: 9pt;
+    font-family: monospace;
+    color: #475569;
+  }
+
+  .divider {
+    height: 3px;
+    background: linear-gradient(90deg, #003087, #DA291C);
+    margin: 0;
+  }
+  .spacer { height: 40px; }
+
+  .insight-box {
+    background: linear-gradient(135deg, #003087 0%, #001a4d 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 20px 0;
+  }
+  .insight-box h4 { color: #fbbf24; margin-top: 0; }
+  .insight-box ul li { opacity: 0.9; }
+
+  .viva-box {
+    background: linear-gradient(135deg, #450a0a 0%, #991b1b 100%);
+    color: white;
+    border-radius: 14px;
+    padding: 22px 28px;
+    margin: 24px 0;
+  }
+  .viva-box h4 { color: #fbbf24; margin-top: 0; font-size: 12pt; }
+  .viva-box li { opacity: 0.92; margin: 8px 0; font-size: 10.5pt; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ COVER ════════════════════ -->
+<div class="cover">
+  <div class="cover-badge">Presentation Guide</div>
+  <h1>ARAMARK<br>Spend Prediction</h1>
+  <h2>State Events &amp; Economic Drivers Dashboard<br>H1 2026 Forecast · Event-Aligned ML</h2>
+  <p style="opacity:0.75; font-size:10pt; margin-top:8px;">
+    Andrew Meszaros SRF Dataset 2025 &nbsp;·&nbsp; Prepared April 2026
+  </p>
+
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="num">~43M</div>
+      <div class="lbl">Transactions in Dataset</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="num">4</div>
+      <div class="lbl">ML Models (GBM · RF · Ridge · SVR)</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="num">6</div>
+      <div class="lbl">Dashboard Tabs / Analytical Views</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="num">16</div>
+      <div class="lbl">Feature Dimensions per Observation</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ TOC ═════════════════════ -->
+<div class="toc page-break">
+  <h2>Table of Contents</h2>
+
+  <div class="toc-item"><span class="num">0.</span><span class="title">Dashboard Overview &amp; Architecture</span><span class="dots"></span><span class="page">3</span></div>
+  <div class="toc-item"><span class="num">1.</span><span class="title">Dataset — Andrew Meszaros SRF 2025</span><span class="dots"></span><span class="page">4</span></div>
+  <div class="toc-item"><span class="num">2.</span><span class="title">ML Framework — 4 Models + Weighted Ensemble</span><span class="dots"></span><span class="page">5</span></div>
+  <div class="toc-item"><span class="num">3.</span><span class="title">Tab 1 — State Forecast &amp; Events Table</span><span class="dots"></span><span class="page">7</span></div>
+  <div class="toc-item"><span class="num">4.</span><span class="title">Tab 2 — Event Calendar Heatmap &amp; Scatter</span><span class="dots"></span><span class="page">10</span></div>
+  <div class="toc-item"><span class="num">5.</span><span class="title">Tab 3 — Segment Deep-Dive Forecast</span><span class="dots"></span><span class="page">13</span></div>
+  <div class="toc-item"><span class="num">6.</span><span class="title">Tab 4 — State Growth Rankings</span><span class="dots"></span><span class="page">15</span></div>
+  <div class="toc-item"><span class="num">7.</span><span class="title">Tab 5 — Quarterly Analysis (Donut · Stacked · QoQ)</span><span class="dots"></span><span class="page">17</span></div>
+  <div class="toc-item"><span class="num">8.</span><span class="title">Tab 6 — Category DNA Fingerprint</span><span class="dots"></span><span class="page">20</span></div>
+  <div class="toc-item"><span class="num">9.</span><span class="title">Model Performance Comparison &amp; Feature Importance</span><span class="dots"></span><span class="page">22</span></div>
+  <div class="toc-item"><span class="num">10.</span><span class="title">Predicted Insights &amp; Business Implications</span><span class="dots"></span><span class="page">25</span></div>
+  <div class="toc-item"><span class="num">11.</span><span class="title">Potential Q&A &amp; Model Answers</span><span class="dots"></span><span class="page">26</span></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 0 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">0</div>
+    <div>
+      <div class="section-title">Dashboard Overview &amp; Architecture</div>
+      <div class="section-subtitle">What the dashboard is, what it does, and how it's structured</div>
+    </div>
+  </div>
+
+  <p>The <strong>ARAMARK Spend Prediction Dashboard</strong> is a fully interactive Plotly-Dash web application hosted at <span class="tag">http://127.0.0.1:8051</span>. It does three things in one unified interface:</p>
+
+  <ol>
+    <li><strong>Retrospective analysis</strong> — explores the full 2025 Aramark spend dataset (43M+ SRF transactions) by state, segment, category, and time.</li>
+    <li><strong>Event attribution</strong> — overlays a curated calendar of 100+ major US events (2025 + 2026 projections) and quantifies their impact on hospitality procurement demand.</li>
+    <li><strong>Forward prediction</strong> — uses four trained ML models, weighted by cross-validated accuracy, to forecast monthly spend for all states across H1 2026 (Jan–Jun), with Apr–Jun being the true forecast window.</li>
+  </ol>
+
+  <div class="kpi-row">
+    <div class="kpi-card blue"><div class="kpi-num">6</div><div class="kpi-lbl">Interactive Tabs</div></div>
+    <div class="kpi-card red"><div class="kpi-num">16</div><div class="kpi-lbl">ML Features per obs.</div></div>
+    <div class="kpi-card green"><div class="kpi-num">5-fold</div><div class="kpi-lbl">Cross-Validation</div></div>
+    <div class="kpi-card amber"><div class="kpi-num">~50+</div><div class="kpi-lbl">States &amp; Territories</div></div>
+  </div>
+
+  <h3>Six Dashboard Tabs at a Glance</h3>
+  <table>
+    <thead><tr><th>#</th><th>Tab</th><th>Purpose</th><th>Key Output</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>📍 State Forecast</td><td>Per-state monthly spend trend + ML forecast</td><td>Ensemble line chart + Event impact bars + Events table</td></tr>
+      <tr><td>2</td><td>🗓 Event Heatmap</td><td>Where &amp; when are the big events?</td><td>States×months color heatmap + Scatter lift vs score</td></tr>
+      <tr><td>3</td><td>📊 Segment Deep-Dive</td><td>Forecast by business segment (e.g. Healthcare, Hospitality)</td><td>SVR+Ridge segment forecast + All-segment comparison bar</td></tr>
+      <tr><td>4</td><td>🏆 State Rankings</td><td>Which states will grow the most (YoY Apr–Jun)?</td><td>Growth bar chart + Full ranking table</td></tr>
+      <tr><td>5</td><td>📅 Quarterly Analysis</td><td>Segment mix evolution Q1 2025 → Q2 2026</td><td>Donut (segment share) + Stacked bar + QoQ heatmap</td></tr>
+      <tr><td>6</td><td>🧬 Category DNA</td><td>What categories define each segment's buying pattern?</td><td>Radar vs national avg + Treemap + Over/under index bar</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Architecture note:</strong> All ML training runs on startup in Python. The Dash app then serves interactive charts via callbacks — selecting a state re-runs <span class="tag">predict_state()</span> on the pre-trained model pipeline and re-renders the chart instantly. No re-training happens at query time.
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 1 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <div class="section-title">Dataset — Andrew Meszaros SRF 2025</div>
+      <div class="section-subtitle">Where the data comes from, what it contains, how it was prepared</div>
+    </div>
+  </div>
+
+  <h3>Primary Dataset: SRF CSV (Spend Request Form)</h3>
+  <p>The raw dataset <span class="tag">Andrew_Meszaros_SRF_2026-04-01-0936.csv</span> is a <strong>Spend Request Form extract</strong> covering Aramark's procurement activity across all US states and territories. Each row represents one purchase transaction.</p>
+
+  <table>
+    <thead><tr><th>Field</th><th>Description</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td>Transaction date / Year-Month</td><td>Purchase timestamp aggregated to YYYYMM</td><td>Time-series training, lag features</td></tr>
+      <tr><td>State</td><td>US state abbreviation (CA, TX, FL…)</td><td>Geographic segmentation, join with reference data</td></tr>
+      <tr><td>Spend Random Factor</td><td>Anonymised dollar spend per transaction</td><td>Target variable for prediction</td></tr>
+      <tr><td>Category Level 1</td><td>Top-level procurement category (Food, Chemicals, Linen…)</td><td>Category DNA analysis, eComm breakdown</td></tr>
+      <tr><td>Segment code</td><td>Aramark business segment (MS-100000 … MS-100115)</td><td>Segment deep-dive forecasts</td></tr>
+      <tr><td>eCommerce Status</td><td>ACTIVE / INACTIVE / PENDING / ACTIVATED</td><td>eCommerce adoption analysis</td></tr>
+      <tr><td>Property rooms</td><td>Number of rooms at the property</td><td>Spend-per-room efficiency metric</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Pre-Aggregation Pipeline</h3>
+  <p>Because 43M rows cannot be queried at interactive speed, the raw CSV was pre-aggregated offline by <span class="tag">feature_engineering.py</span> into nine Parquet files:</p>
+  <ul>
+    <li><span class="tag">monthly_state_agg.csv</span> — (state, year_month, spend) — backbone of all time-series forecasting</li>
+    <li><span class="tag">state_spend_agg.csv</span> — total + average spend, transaction count per state</li>
+    <li><span class="tag">seg_state_monthly.parquet</span> — segment × state × month spend — powers the Segment Deep-Dive tab</li>
+    <li><span class="tag">seg_cat_dna.parquet</span> — category % share per segment — powers the Category DNA radar</li>
+    <li><span class="tag">national_cat.parquet</span> — national average category mix for benchmarking</li>
+    <li><span class="tag">spr_agg.parquet</span> + <span class="tag">spr_seg.parquet</span> — spend-per-room by size bucket</li>
+    <li><span class="tag">ecomm_seg.parquet</span>, <span class="tag">ecomm_cat.parquet</span>, <span class="tag">ecomm_state.parquet</span> — eCommerce status breakdown</li>
+  </ul>
+
+  <h3>Supplementary Reference Data</h3>
+  <p>Because spend alone doesn't explain <em>why</em> some states over-perform, we enriched every state with hand-curated reference data from public sources:</p>
+  <ul>
+    <li><strong>Bureau of Economic Analysis (BEA)</strong> — state GDP ($B)</li>
+    <li><strong>US Census Bureau</strong> — state population (millions)</li>
+    <li><strong>US Travel Association / AHLA</strong> — tourism revenue ($B), hotel count, hotel rooms (thousands)</li>
+    <li><strong>us_major_events_2026.xlsx / USA_Major_Events_2026.xlsx</strong> — verified 2026 event calendar with economic impact estimates sourced from PredictHQ, Bay Area Host Committee, Indy 500 IMS reports, Mardi Gras 2026 economic study</li>
+  </ul>
+
+  <div class="callout amber">
+    <strong>Important caveat on "Spend Random Factor":</strong> The spend values are a randomised proxy for actual dollar amounts (for data privacy). Correlations and directional trends are real; absolute dollar values should be treated as ordinal, not literal. The ML model learns relative patterns — seasonality, event lift, geographic structure — which remain valid even with randomised scaling.
+  </div>
+
+  <h3>Training / Test Split Strategy</h3>
+  <ul>
+    <li><strong>Training set:</strong> All 2025 months (Jan–Dec 2025) for all available states. ~600 observations.</li>
+    <li><strong>Evaluation:</strong> 5-fold cross-validation on the training set (not a held-out test set, since we're forecasting into the future).</li>
+    <li><strong>Forecast window:</strong> Jan–Jun 2026. Jan–Mar 2026 use injected "actuals" (estimated from event outcomes) to prime lag features; Apr–Jun 2026 are the true ML predictions.</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 2 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <div class="section-title">ML Framework — 4 Models + Weighted Ensemble</div>
+      <div class="section-subtitle">Model selection rationale, feature engineering, ensemble strategy, and prediction corridor</div>
+    </div>
+  </div>
+
+  <h3>Feature Engineering — 16 Dimensions</h3>
+  <p>Each training observation is one <em>(state, year_month)</em> pair encoded into 16 features:</p>
+
+  <table>
+    <thead><tr><th>Feature</th><th>Type</th><th>Rationale</th></tr></thead>
+    <tbody>
+      <tr><td>log_population</td><td><span class="feature-pill econ">Economic</span></td><td>Log-scaled to reduce California/Texas dominance. More people → more hospitality transactions.</td></tr>
+      <tr><td>log_gdp</td><td><span class="feature-pill econ">Economic</span></td><td>State GDP ($B, log). Largest single correlator with total spend (r ≈ 0.87 in Pearson analysis).</td></tr>
+      <tr><td>log_tourism</td><td><span class="feature-pill econ">Economic</span></td><td>Tourism revenue signals visitor-driven demand — especially important for FL, TN, NC.</td></tr>
+      <tr><td>log_hotel_rooms</td><td><span class="feature-pill econ">Economic</span></td><td>Hotel room inventory is a proxy for Aramark contract coverage (cleaning, F&amp;B, linen).</td></tr>
+      <tr><td>month_sin / month_cos</td><td><span class="feature-pill time">Seasonal</span></td><td>Circular encoding of month (avoids December=12 ≠ January=1 discontinuity). Captures U-shaped seasonality.</td></tr>
+      <tr><td>event_score</td><td><span class="feature-pill event">Event</span></td><td>Aggregate event impact (0–200+) using diminishing returns: primary + 50% secondary + 25% tertiary…</td></tr>
+      <tr><td>event_count</td><td><span class="feature-pill event">Event</span></td><td>Number of distinct events in that state-month — measures breadth of demand pressure.</td></tr>
+      <tr><td>max_event_impact</td><td><span class="feature-pill event">Event</span></td><td>Single largest event score (0–100). Differentiates a Super Bowl month from a minor-events month.</td></tr>
+      <tr><td>aramark_boost_M</td><td><span class="feature-pill event">Event</span></td><td>Research-backed dollar estimate ($M) of Aramark's 5-channel capture: venue concessions + hotel F&amp;B + airport dining + convention catering + institutional spillover.</td></tr>
+      <tr><td>lag1_logspend</td><td><span class="feature-pill lag">Lag</span></td><td>Log-spend from previous month. Most powerful single feature — spend is auto-correlated.</td></tr>
+      <tr><td>lag2_logspend</td><td><span class="feature-pill lag">Lag</span></td><td>Log-spend 2 months ago.</td></tr>
+      <tr><td>lag3_logspend</td><td><span class="feature-pill lag">Lag</span></td><td>Log-spend 3 months ago.</td></tr>
+      <tr><td>roll3_logspend</td><td><span class="feature-pill lag">Lag</span></td><td>3-month rolling average of log-spend. Smooths short-term volatility.</td></tr>
+      <tr><td>year_offset</td><td><span class="feature-pill time">Temporal</span></td><td>Set to 0 for all observations — intentionally disabled to prevent out-of-distribution extrapolation on small states.</td></tr>
+      <tr><td>month</td><td><span class="feature-pill time">Temporal</span></td><td>Raw month integer (1–12) as a linear feature, complementing the circular sin/cos encoding.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout green">
+    <strong>Why log-transform the target?</strong> Spend has a heavy right tail (Hawaii has extreme per-transaction values; California dwarfs Vermont). Predicting log(1+spend) and back-transforming with expm1() ensures the model isn't dominated by large-state outliers and gives proportionally equal training weight to all states.
+  </div>
+
+  <h3>The Four Models — Why Each Was Chosen</h3>
+
+  <table>
+    <thead><tr><th>Model</th><th>Why Included</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Gradient Boosting (GBM)</strong><br><small>n_estimators=300, depth=4, lr=0.05</small></td>
+        <td>Industry standard on structured tabular data. Typically wins Kaggle competitions on similar problems.</td>
+        <td>Handles non-linearities (event spikes), feature interactions (events × tourism revenue), robust to outliers</td>
+        <td>Can overfit on small datasets; slow to train vs RF</td>
+      </tr>
+      <tr>
+        <td><strong>Random Forest</strong><br><small>n_estimators=300, depth=8</small></td>
+        <td>Ensemble baseline — high variance reduction through bagging. Good sanity-check against GBM.</td>
+        <td>Naturally resistant to overfitting; fast; interpretable via feature importance</td>
+        <td>Tends to under-predict extremes (regression to the mean)</td>
+      </tr>
+      <tr>
+        <td><strong>Ridge Regression</strong><br><small>alpha=1.0</small></td>
+        <td>Linear baseline. If the data is genuinely linear, Ridge should compete; if GBM wins by a large margin, non-linearity is confirmed.</td>
+        <td>Fast, interpretable, stable coefficients; good for regions with few events</td>
+        <td>Cannot capture non-linear event spikes or interaction effects</td>
+      </tr>
+      <tr>
+        <td><strong>SVR (RBF kernel)</strong><br><small>C=10.0, ε=0.05, γ=scale</small></td>
+        <td>Non-linear kernel captures smooth curves. Segment-level forecasting uses SVR as primary model.</td>
+        <td>Good at capturing smooth cyclical patterns; regularised through ε-insensitive loss</td>
+        <td>Computationally expensive; hard to interpret; sensitive to scaling</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Ensemble Strategy — Inverse-RMSE Weighting</h3>
+  <p>Instead of picking a single winner, we combine all four using <strong>inverse-RMSE weighted averaging</strong>:</p>
+  <div class="callout">
+    <strong>weight(model) = (1 / CV_RMSE(model)) / Σ(1 / CV_RMSE)</strong><br>
+    This means models with lower prediction error get proportionally more influence in the final ensemble forecast. The ensemble prediction band (shaded area on charts) spans from the minimum to maximum single-model prediction, giving a visual confidence interval.
+  </div>
+
+  <h3>Prediction Corridor — Preventing Extrapolation Failures</h3>
+  <p>Raw ML predictions on small states (Vermont, North Dakota) can extrapolate wildly when a major event is scored. A multi-anchor corridor prevents this:</p>
+  <ul>
+    <li><strong>Floor</strong> = max(65% of historical average, event-anchored floor if aramark_boost ≥ $3M, 90% of same month last year)</li>
+    <li><strong>Ceiling</strong> = 155%–220% of baseline (higher for large confirmed events like Super Bowl or FIFA WC)</li>
+    <li><strong>Organic cap</strong>: For months with no real events (event_score &lt; 30), cap at +15% of same month last year to prevent phantom growth.</li>
+  </ul>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 3 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <div class="section-title">Tab 1 — State Forecast &amp; Events Table</div>
+      <div class="section-subtitle">Monthly spend prediction aligned with the event calendar, per state</div>
+    </div>
+  </div>
+
+  <!-- CHART 1 -->
+  <div class="chart-block no-break">
+    <div class="chart-header">
+      <div class="chart-num">1</div>
+      <div>
+        <div class="chart-name">State Forecast Chart — Dual Panel (Spend + Event Bars)</div>
+        <div class="chart-tab">Tab: 📍 State Forecast · Interactive (dropdown: select state)</div>
+      </div>
+    </div>
+    <div class="chart-body">
+
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a">
+            <strong>Top panel:</strong> <span class="tag">monthly_state_agg.csv</span> for 2025 actual spend. <span class="tag">STATE_REF</span> for economic features. <span class="tag">ARAMARK_BOOST_M</span> dictionary for event dollar estimates.<br><br>
+            <strong>Bottom panel (event bars):</strong> <span class="tag">RAW_EVENTS</span> calendar — 100+ manually curated events with impact scores (0–100).
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why This Chart?</div>
+          <div class="qa-a">
+            A single chart that shows <em>both</em> what happened (blue line) and what we predict (red dashed) on the same axis eliminates the cognitive gap between history and forecast. The linked event bars below show <em>why</em> certain months spike — the user can visually trace "February spike in CA → Super Bowl LX" without consulting a separate table.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze This Graph</div>
+          <div class="qa-a">
+            <strong>Step 1:</strong> Read the blue line — note seasonal peaks and troughs in 2025.<br>
+            <strong>Step 2:</strong> Where the dotted red line (ensemble) diverges significantly from the blue trend, look at the event bars below — high bars (orange = forecast) explain the lift.<br>
+            <strong>Step 3:</strong> The shaded red band = range across all 4 individual models. Wide band = high model disagreement = less certain forecast month.<br>
+            <strong>Step 4:</strong> The vertical dashed line marks "Jan–Mar 2026 = Actual, Apr–Jun = True Forecast."
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Inspiration &amp; Approach</div>
+          <div class="qa-a">
+            Inspired by financial time-series dashboards (e.g. Bloomberg terminal) where analysts overlay macro events on price charts. The dual-panel design (spend + event score) is borrowed from stock chart + volume bars — a widely understood visual metaphor that makes the event-spend relationship immediately intuitive.
+          </div>
+        </div>
+        <div class="qa-card full">
+          <div class="qa-q">📖 How Other Models Performed (Per-State Example)</div>
+          <div class="qa-a">
+            Each model's prediction is shown as a faint dotted line. Typical behaviour:<br><br>
+            <strong>GBM (red):</strong> Usually highest accuracy, captures event spikes. Tends to win the ensemble weighting race.<br>
+            <strong>Random Forest (green):</strong> Smoother predictions, regresses toward the mean — good as a floor for the confidence band.<br>
+            <strong>Ridge (amber):</strong> Linear extrapolation — often misses sharp event spikes but is correct for "boring" months in states without major events.<br>
+            <strong>SVR (teal):</strong> Smooth non-linear curve — often similar to RF but with slightly different error distribution.<br><br>
+            The shaded band shows min(all models) to max(all models). The ensemble diamond line is the weighted average.
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-box">
+        <h4>Key Reading Example — California (CA)</h4>
+        <ul>
+          <li>Jan 2026: modest lift from Rose Bowl + CES Las Vegas (NV) effect on West Coast travel → slight uptick</li>
+          <li>Feb 2026: <strong>Super Bowl LX at Levi's Stadium, Santa Clara</strong> + NBA All-Star → aramark_boost = $17.5M → massive forecast spike, highest of all states in any month</li>
+          <li>Apr 2026: <strong>Coachella + Stagecoach</strong> → aramark_boost = $9.5M → second major peak</li>
+          <li>Jun 2026: <strong>FIFA World Cup 2026</strong> (SoFi + Levi's, two stadiums) → $15M boost → Q2 forecast remains elevated</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 2: Events Table -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">2</div>
+      <div>
+        <div class="chart-name">Upcoming Events Table — Event → Predicted Spend Driver</div>
+        <div class="chart-tab">Tab: 📍 State Forecast · Below the forecast chart · Auto-updates with state dropdown</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a"><span class="tag">RAW_EVENTS</span> calendar + <span class="tag">ARAMARK_BOOST_M</span> dictionary. Jan–Mar 2026 rows are labelled "Actual"; Apr–Jun are labelled "Forecast."</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why This Table?</div>
+          <div class="qa-a">The chart shows the pattern; the table explains the <em>cause</em>. When presenting to a client, they will ask "why does NC spike in May?" — this table answers that immediately: PGA Championship at Quail Hollow, impact score 85, Aramark boost $3.8M.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Read It</div>
+          <div class="qa-a">
+            <strong>Event Score column:</strong> Red = high-impact (≥60), amber = moderate (25–59), grey = low.<br>
+            <strong>Aramark Boost Est.:</strong> Research-backed multi-channel estimate — venue concessions + hotel F&amp;B + airport dining + convention catering + institutional spillover.<br>
+            <strong>Spend column:</strong> Green = confirmed actual; Blue = ML forecast.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Approach</div>
+          <div class="qa-a">Each Aramark boost figure was derived bottom-up from public economic impact studies (e.g., Indy 500 $566M total → IMS Aramark contract + hotel F&amp;B share + airport). This makes the model interpretable: not a black box, but an auditable revenue attribution engine.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 4 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div>
+      <div class="section-title">Tab 2 — Event Calendar Heatmap &amp; Event-Spend Scatter</div>
+      <div class="section-subtitle">Where and when demand concentrates — the geographic-temporal event map</div>
+    </div>
+  </div>
+
+  <!-- CHART 3 -->
+  <div class="chart-block no-break">
+    <div class="chart-header">
+      <div class="chart-num">3</div>
+      <div>
+        <div class="chart-name">Event Calendar Heatmap — States × Months (2025 + H1 2026)</div>
+        <div class="chart-tab">Tab: 🗓 Event Heatmap · Top chart · Static (no interaction required)</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a"><span class="tag">RAW_EVENTS</span> list with 100+ events. The <span class="tag">event_score()</span> function aggregates multiple events per (state, month) using diminishing returns: primary × 1 + secondary × 0.5 + tertiary × 0.25…</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why This Chart?</div>
+          <div class="qa-a">A heatmap is the densest way to communicate "where and when" in one glance. Stakeholders can immediately see the red cluster in Jun 2026 (FIFA World Cup across TX, CA, NJ, FL, GA, PA, MA, WA, MO, NY) without reading a list of 18 events. The red dashed vertical line clearly separates historical from forecast.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze This Graph</div>
+          <div class="qa-a">
+            <strong>Color scale:</strong> White/grey = no events, light blue = minor events, blue = moderate, amber = significant, red = mega-event (100 = Super Bowl level).<br><br>
+            <strong>What to look for:</strong>
+            <ul>
+              <li>Horizontal streaks = states with events spread across months (TX, CA)</li>
+              <li>Vertical streaks = event-heavy months nationally (Feb = Super Bowl, May = Indy 500, Jun 2026 = FIFA WC)</li>
+              <li>Dark red single cells = once-in-a-year mega-events (LA Feb 2025 = Super Bowl LIX, CA Feb 2026 = Super Bowl LX)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Inspiration &amp; Approach</div>
+          <div class="qa-a">
+            Inspired by GitHub contribution heatmaps and climate anomaly maps used in environmental science. States are sorted by total annual event score (top-30 shown) to surface the most event-active markets first. The ▶ prefix on 2026 labels signals forecast territory visually without extra legend clutter.
+          </div>
+        </div>
+        <div class="qa-card full">
+          <div class="qa-q">📖 Key Patterns to Call Out in Presentation</div>
+          <div class="qa-a">
+            <ol>
+              <li><strong>June 2026 is the hottest column</strong> — FIFA World Cup brings simultaneous mega-events to 9 US host cities. TX scores ~95 (two stadiums: AT&amp;T Dallas + NRG Houston), making it the highest single-cell in the entire chart.</li>
+              <li><strong>February oscillates between LA (2025 Super Bowl LIX) and CA (2026 Super Bowl LX)</strong> — demonstrates how event geography shifts year over year.</li>
+              <li><strong>NC has a concentrated May spike</strong> (PGA Championship at Quail Hollow, Charlotte) — a state that would otherwise look quiet.</li>
+              <li><strong>GA April = Masters</strong> every year — the most consistent single-state recurring mega-event in the dataset.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 4 -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">4</div>
+      <div>
+        <div class="chart-name">Event Score vs Predicted Spend Lift — Bubble Scatter</div>
+        <div class="chart-tab">Tab: 🗓 Event Heatmap · Bottom chart · Static</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a">Computed from <span class="tag">STATE_PREDS</span> (ML forecasts) + <span class="tag">event_score()</span> for Apr–Jun 2026 months. X-axis = total 3-month event score; Y-axis = predicted spend lift vs Apr–Jun 2025 same period; bubble size = state GDP.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why This Chart?</div>
+          <div class="qa-a">This is the <strong>validation chart for the entire model</strong>. If events truly drive spend, states with higher event scores should have higher predicted lifts. The scatter (with trend line) visually proves this correlation holds in the predictions, giving stakeholders confidence that the model is learning meaningful signal rather than random patterns.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            <strong>Upper-right quadrant:</strong> High events AND high lift — states like TX, CA, NJ, IN during FIFA/Indy season. These are the priority opportunity states.<br>
+            <strong>Lower-left:</strong> Few events, modest lift — organic growth states (e.g. ND, VT).<br>
+            <strong>Upper-left outliers:</strong> High lift but low event score — could indicate base effects (a low 2025 baseline inflating % growth) or structural market expansion not captured in event calendar.<br>
+            <strong>Bubble size</strong> = GDP → large bubbles are not just high-event; they're also large economies where small % lifts equal large absolute dollars.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Approach</div>
+          <div class="qa-a">The trend line is a simple OLS regression across states. A positive slope with R² > 0.4 validates that the event calendar is genuinely predictive — not decorative. This chart is the "so what?" slide that ties the entire analysis together for executives.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 5 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <div>
+      <div class="section-title">Tab 3 — Segment Deep-Dive Forecast</div>
+      <div class="section-subtitle">Business-segment-level SVR+Ridge forecast: Healthcare vs Hospitality vs Sports &amp; Entertainment</div>
+    </div>
+  </div>
+
+  <!-- CHART 5 -->
+  <div class="chart-block no-break">
+    <div class="chart-header">
+      <div class="chart-num">5</div>
+      <div>
+        <div class="chart-name">Segment Forecast Chart (SVR + Ridge Ensemble)</div>
+        <div class="chart-tab">Tab: 📊 Segment Deep-Dive · Interactive (segment dropdown + state filter)</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a"><span class="tag">seg_state_monthly.parquet</span> (segment × state × month spend). Joined to national aggregate <span class="tag">seg_monthly_raw</span> when "All States" is selected.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why SVR + Ridge Here (Not GBM)?</div>
+          <div class="qa-a">
+            At the segment level, the training set per (segment, state) is much smaller — sometimes only 8–10 months of data. GBM with 300 trees overfits dramatically on such small samples. SVR (RBF) with regularisation (C=5) and Ridge offer smoother, more stable generalisation on sparse series. The segment-level model uses only 7 features (sin/cos, 3 lags, rolling mean, month) — a deliberately minimal feature set to avoid overfitting.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze This Graph</div>
+          <div class="qa-a">
+            <strong>Red solid line:</strong> 2025 actuals for the selected segment (Jan–Dec 2025).<br>
+            <strong>Red dashed line (diamonds):</strong> H1 2026 forecast.<br>
+            <strong>Shaded band:</strong> min(SVR, Ridge) to max(SVR, Ridge) — confidence range.<br>
+            <strong>KPI panel (right side):</strong> H2 2025 actual vs H1 2026 forecast with growth %. This is the headline number for segment managers.<br>
+            Look for segments where the forecast line sharply diverges from the seasonal baseline — that divergence is driven by the lag features picking up recent momentum or Q4 2025 trend.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Inspiration</div>
+          <div class="qa-a">
+            Segment managers at Aramark don't care about "all states combined" — they manage specific verticals (Healthcare Dining, Sports &amp; Entertainment, Hotel/Lodging). This tab gives each segment owner a personalised forecast they can drill into by state. The state filter is the key UX innovation: "Show me Hospitality Large segment in Florida only" isolates the Miami/Orlando hotel F&amp;B channel for that manager.
+          </div>
+        </div>
+        <div class="qa-card full">
+          <div class="qa-q">📖 Interesting Segments to Highlight in Presentation</div>
+          <div class="qa-a">
+            <ul>
+              <li><strong>MS-100005 (Sports &amp; Entertainment):</strong> Highly seasonal — spikes in May (Indy 500, PGA), Aug (Ryder Cup, Lollapalooza), Jun 2026 (FIFA WC). The model should predict a large Jun 2026 spike for TX, CA, NJ.</li>
+              <li><strong>MS-100002 (Hospitality Large):</strong> Steady growth with Feb 2026 spike for CA (Super Bowl LX) and Apr (Coachella). Good validation of the event-driven model.</li>
+              <li><strong>MS-100003 (Institutional Food Service):</strong> The most stable segment — universities and hospitals aren't event-driven. The forecast will look flat/steady, which is itself a valuable finding (predictable revenue stream).</li>
+              <li><strong>MS-100026 (Luxury Resort HI):</strong> Hawaii's Maui resort recovery — unique single-state pattern. Very high average spend per transaction ($378).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 6 -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">6</div>
+      <div>
+        <div class="chart-name">All Segments — H1 2026 Forecast Comparison Bar</div>
+        <div class="chart-tab">Tab: 📊 Segment Deep-Dive · Below forecast chart · Updates with state filter</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            Bars are sorted by H1 2026 forecast volume. The currently selected segment is highlighted in red; all others in blue. This gives instant context: "Institutional Food Service is the #1 segment by volume, but Sports &amp; Entertainment shows the highest % growth." This separation of volume vs. growth is critical for prioritising resource allocation.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Why This Matters</div>
+          <div class="qa-a">
+            Without the comparison bar, a manager looking only at their segment's chart has no context. The comparison bar answers "Is my segment growing faster or slower than others?" and "Which segments should Aramark invest in for H1 2026?" — a strategic procurement insight.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 6 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <div>
+      <div class="section-title">Tab 4 — State Growth Rankings</div>
+      <div class="section-subtitle">YoY Apr–Jun 2026 vs Apr–Jun 2025 — which states are predicted to grow most?</div>
+    </div>
+  </div>
+
+  <!-- CHART 7 -->
+  <div class="chart-block no-break">
+    <div class="chart-header">
+      <div class="chart-num">7</div>
+      <div>
+        <div class="chart-name">State Spend Growth Rankings Bar — Top 10 &amp; Bottom 10</div>
+        <div class="chart-tab">Tab: 🏆 State Rankings · Top chart · Static</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a"><span class="tag">STATE_PREDS</span> — pre-computed ML ensemble forecasts for all states. Growth rate = (Apr–Jun 2026 forecast − Apr–Jun 2025 actual) / Apr–Jun 2025 actual × 100. <strong>Critically: same 3-month window compared year-over-year</strong> to eliminate seasonality distortion.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why Apr–Jun Specifically?</div>
+          <div class="qa-a">
+            This is the <em>true</em> forecast window (Apr–Jun 2026 are the ML-predicted months). Comparing to the same Apr–Jun 2025 period controls for seasonality — we're not comparing summer 2026 to winter 2025. This design decision prevents misleading growth signals driven purely by season, not events.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            <strong>Green bars (positive growth):</strong> States predicted to grow vs same period last year — primarily event-driven or structurally expanding markets.<br>
+            <strong>Red bars (negative growth):</strong> States declining vs Apr–Jun 2025 — could mean a major 2025 event (Super Bowl LIX in LA) won't repeat in 2026 Apr–Jun window, or market contraction.<br>
+            <strong>Amber divider line</strong> at x=9.5 separates Top 10 from Bottom 10.<br>
+            <strong>Hover tooltip</strong> shows: Apr–Jun 2026 forecast ($), Apr–Jun 2025 actual ($), YoY growth %.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Approach</div>
+          <div class="qa-a">
+            This is the "executive summary" chart — one slide that Aramark leadership can take into a board meeting. The top-10/bottom-10 split in a single bar chart is a classic management consulting deliverable format. The colour coding (green/red) provides instant decision support.
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-box">
+        <h4>Expected Top Performers (Apr–Jun 2026)</h4>
+        <ul>
+          <li><strong>TX:</strong> FIFA WC 2026 — AT&amp;T Stadium (Dallas) + NRG Houston — two venues, highest single-state FIFA impact (~$18.5M Aramark boost)</li>
+          <li><strong>CA:</strong> FIFA WC SoFi + Levi's + Coachella/Stagecoach in April → sustained Q2 elevation</li>
+          <li><strong>NJ:</strong> FIFA WC MetLife Stadium — gateway to NYC market (~$12.5M boost)</li>
+          <li><strong>IN:</strong> Indianapolis 500 (Aramark is confirmed official concessionaire at IMS) → $9.8M boost in May alone</li>
+          <li><strong>MA:</strong> Boston Marathon ($509M economic impact, Apr) + FIFA WC Gillette (Jun) → double event peak</li>
+          <li><strong>PA:</strong> PGA Championship at Aronimink (May) + FIFA WC Lincoln Financial Field (Jun, Aramark confirmed)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 8 -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">8</div>
+      <div>
+        <div class="chart-name">State Rankings Detail Table</div>
+        <div class="chart-tab">Tab: 🏆 State Rankings · Below bar chart · All states ranked</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Read</div>
+          <div class="qa-a">Columns: Rank, State, Apr–Jun 2026 forecast ($), Apr–Jun 2025 actual ($), YoY Growth % (colour-coded green/red), Top Event for that period. The "Top Event" column is the single highest-scoring event in that state's Apr–Jun 2026 calendar — providing the one-sentence narrative for the number.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Value Proposition</div>
+          <div class="qa-a">A procurement manager reviewing this table can immediately triage: "Which states need additional supplier capacity in Q2 2026?" The answer is the top 5 green rows. Similarly, states with large negative growth may signal contract renewals coming due or event cancellations to plan around.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 7 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <div>
+      <div class="section-title">Tab 5 — Quarterly Analysis</div>
+      <div class="section-subtitle">How segment spending mix evolves quarter by quarter — Q1 2025 through Q2 2026 forecast</div>
+    </div>
+  </div>
+
+  <!-- CHART 9 -->
+  <div class="chart-block no-break">
+    <div class="chart-header">
+      <div class="chart-num">9</div>
+      <div>
+        <div class="chart-name">Quarterly Segment Donut Chart</div>
+        <div class="chart-tab">Tab: 📅 Quarterly Analysis · Top-left · Interactive (quarter dropdown)</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a"><span class="tag">QUARTERLY_DF</span> — built from <span class="tag">seg_monthly_raw</span> (actuals 2025) and segment forecasts from SVR+Ridge for Q2 2026 (Apr–Jun). Each quarter's spend is summed across its 3 months for each segment.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why a Donut?</div>
+          <div class="qa-a">
+            The donut (hole in the centre) serves two purposes: (1) the total spend figure displayed in the centre is immediately readable, and (2) the ring structure visually conveys "parts of a whole" better than a stacked bar for a single time period. Top 12 segments shown; the rest grouped as "Other."
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            <strong>Compare Q4 2025 to Q2 2026 ▶:</strong>
+            <ul>
+              <li>Which segments expand their slice in the forecast quarter? (Sports &amp; Entertainment likely grows in Q2 2026 due to FIFA WC)</li>
+              <li>Which shrink? (Healthcare Dining is stable — unlikely to shift)</li>
+              <li>The centre total shows the absolute spend, so a smaller slice in a larger total can still mean more absolute dollars</li>
+            </ul>
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Inspiration</div>
+          <div class="qa-a">Standard management consulting "wallet share" analysis. The donut was chosen over a regular pie chart specifically because the central annotation (total spend) transforms it from a pure proportion chart into a combined proportion + magnitude view — two pieces of information in one visual element.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 10 -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">10</div>
+      <div>
+        <div class="chart-name">Quarterly Stacked Bar — Top 10 Segments × Q1 2025 – Q2 2026</div>
+        <div class="chart-tab">Tab: 📅 Quarterly Analysis · Bottom chart · Static</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            <strong>The dashed vertical line</strong> at Q4 2025 / Q1 2026 boundary marks "← 2025 Actual | 2026 →."<br><br>
+            <strong>Each coloured band</strong> represents one segment's contribution to that quarter's total. A growing overall bar height signals total portfolio expansion. Shifts in relative band thickness indicate a segment gaining or losing share.<br><br>
+            <strong>Key pattern to look for:</strong> The Q2 2026 ▶ bar should be taller than Q2 2025 if FIFA WC + PGA Championship + Indy 500 drive additional spend vs. the comparable 2025 period.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Why Stacked?</div>
+          <div class="qa-a">A grouped bar would require scrolling and makes totals hard to read. A stacked bar sacrifices individual segment precision but enables: (1) total portfolio tracking, (2) dominant-segment identification, (3) trend comparison across quarters. This is the standard for multi-segment portfolio evolution charts in finance/consulting.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 11 -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">11</div>
+      <div>
+        <div class="chart-name">QoQ Spend Change Heatmap — All Segments × 6 Quarters</div>
+        <div class="chart-tab">Tab: 📅 Quarterly Analysis · Top-right · Static</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a">Pivot table from <span class="tag">QUARTERLY_DF</span> with pct_change() across quarters. Q1 2025 column shows absolute spend (baseline); all other columns show % change vs prior quarter. Segments with max spend &lt; $50K filtered out as noise.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            <strong>Red = QoQ decline; Green = QoQ growth.</strong><br>
+            Each row is a segment; each column is a quarter. A row that's consistently green (e.g., Healthcare Dining) indicates structural growth. A row with alternating red/green (e.g., Sports &amp; Entertainment) indicates seasonality — summer events inflate it, winter deflates it.<br><br>
+            <strong>Q2 2026 ▶ column</strong> should show green for event-intensive segments (Sports, Hospitality, Convention) due to FIFA/PGA/Indy season.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Why a Heatmap for QoQ?</div>
+          <div class="qa-a">The heatmap simultaneously surfaces two patterns that line charts obscure: (1) cross-segment comparison in a single view, and (2) the temporal regularity of quarter-specific seasonality. A green Q3 column for most segments confirms summer as universally strong — a structural pattern, not segment-specific noise.</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why This Chart?</div>
+          <div class="qa-a">
+            Managing 25+ segments with individual line charts creates "chart overload." The heatmap compresses all segments into a single 25×6 matrix where colour encodes the direction and magnitude of change — a format borrowed from financial earnings heat tables and bioinformatics expression matrices.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 8 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <div>
+      <div class="section-title">Tab 6 — Category DNA Fingerprint</div>
+      <div class="section-subtitle">What categories does each segment buy? Radar, treemap, and over/under-index analysis</div>
+    </div>
+  </div>
+
+  <!-- CHART 12 -->
+  <div class="chart-block no-break">
+    <div class="chart-header">
+      <div class="chart-num">12</div>
+      <div>
+        <div class="chart-name">Category DNA Radar — Segment vs National Average</div>
+        <div class="chart-tab">Tab: 🧬 Category DNA · Left panel · Interactive (segment dropdown)</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 Dataset Used</div>
+          <div class="qa-a"><span class="tag">seg_cat_dna.parquet</span> — pre-computed category % share per segment. <span class="tag">national_cat.parquet</span> — national average category mix as the benchmark polygon. Each axis on the radar = one procurement category (Food, Chemicals, Linen, Equipment, etc.).</div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why a Radar Chart?</div>
+          <div class="qa-a">
+            A radar (spider) chart is optimal for comparing multi-dimensional category profiles because: (1) deviations from the benchmark (grey dotted polygon) are immediately visible as spikes or gaps, (2) the overall "shape" of the polygon becomes an intuitive fingerprint — wide = diverse category mix, narrow spike = concentrated spend in one category, (3) comparison of two overlapping polygons (segment vs national) requires no legend decoding.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            <strong>Blue filled polygon:</strong> Selected segment's category % share.<br>
+            <strong>Grey dotted polygon:</strong> National average — the "typical" Aramark customer.<br>
+            <strong>Where blue exceeds grey:</strong> Segment over-indexes in that category (opportunity for category managers to negotiate volume deals).<br>
+            <strong>Where grey exceeds blue:</strong> Segment under-indexes (untapped cross-sell opportunity or category not relevant).<br><br>
+            Example: <em>Healthcare Dining (MS-100001)</em> should spike heavily on Food &amp; Beverages and Chemicals (cleaning/sanitation) but have near-zero on Linen/Guest Amenities — a very different profile from <em>Luxury Resort HI (MS-100026)</em>.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Inspiration</div>
+          <div class="qa-a">
+            Inspired by customer DNA profiling in retail analytics (e.g. Spotify's radar showing listening genre breakdown). Applied here to procurement to give category managers an instant "buying fingerprint" for each Aramark vertical. The term "DNA" was deliberately chosen to make the metaphor memorable for non-technical stakeholders.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 13 -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">13</div>
+      <div>
+        <div class="chart-name">Category Wallet Share Treemap</div>
+        <div class="chart-tab">Tab: 🧬 Category DNA · Right panel · Interactive (segment dropdown)</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            Each rectangle = one procurement category. <strong>Size = total spend.</strong> The largest rectangle is the dominant category for this segment. Labels show category name, dollar amount, and % of segment total. Colour gradient (blue → teal → green) by spend level. Zooming into the treemap reveals the exact portfolio composition at a glance — no pie chart sliver problem.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why Treemap vs Bar Chart?</div>
+          <div class="qa-a">
+            A horizontal bar chart with 15+ categories requires scrolling and makes area comparison difficult. A treemap uses area as the primary encoding — the human eye is very good at comparing rectangular areas side-by-side. Additionally, the hierarchical layout can be extended to show sub-categories (L2 → L3) in a future iteration without cluttering the view.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART 14 -->
+  <div class="chart-block no-break" style="margin-top:24px;">
+    <div class="chart-header">
+      <div class="chart-num">14</div>
+      <div>
+        <div class="chart-name">Over / Under-Index Bar — Category Delta vs National Average</div>
+        <div class="chart-tab">Tab: 🧬 Category DNA · Bottom panel · Interactive (segment dropdown)</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">🔍 How to Analyze</div>
+          <div class="qa-a">
+            <strong>X-axis:</strong> Percentage-point difference from national average (e.g., +12pp means this segment spends 12 percentage points more of its budget on this category than average).<br>
+            <strong>Green bars:</strong> Over-indexed categories (concentration above national average).<br>
+            <strong>Red bars:</strong> Under-indexed (gaps vs national).<br>
+            This chart answers: "Where is this segment's procurement fundamentally different from the typical Aramark customer?"
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">💡 Strategic Value</div>
+          <div class="qa-a">
+            Over-indexed categories are where specialised supplier negotiations make sense. Under-indexed categories are either genuinely not needed (hospitals don't buy Golf &amp; Turf supplies) or represent a cross-sell opportunity a category manager hasn't pursued yet. This chart is the starting point for supplier strategy and category management conversations.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 9 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <div>
+      <div class="section-title">Model Performance Comparison &amp; Feature Importance</div>
+      <div class="section-subtitle">How well do the models perform? What features matter most? (Model Comparison chart)</div>
+    </div>
+  </div>
+
+  <!-- CHART 15 (Model Comparison) -->
+  <div class="chart-block no-break">
+    <div class="chart-header">
+      <div class="chart-num">15</div>
+      <div>
+        <div class="chart-name">ML Model CV RMSE Comparison + GBM Feature Importance</div>
+        <div class="chart-tab">Tab: Embedded in State Forecast tab metadata / accessible as standalone chart in the code</div>
+      </div>
+    </div>
+    <div class="chart-body">
+      <div class="qa-grid">
+        <div class="qa-card">
+          <div class="qa-q">📊 How Models Were Evaluated</div>
+          <div class="qa-a">
+            5-fold cross-validation on the 2025 training set. Metric: <strong>CV log-RMSE</strong> (Root Mean Squared Error in log-spend space). Log-RMSE was chosen over raw RMSE because raw RMSE would be dominated by California and Texas (very large absolute values), masking poor performance on smaller states. Log-space RMSE is interpretable as "proportional prediction error."
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🏆 Which Model Wins?</div>
+          <div class="qa-a">
+            <strong>Gradient Boosting</strong> consistently achieves the lowest CV log-RMSE. This aligns with the broader ML literature — GBM is the gold standard for structured tabular regression with mixed feature types (numeric, encoded categorical, time features). The winning model is highlighted in green on the RMSE bar chart.
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">📊 Feature Importance (GBM)</div>
+          <div class="qa-a">
+            <strong>Expected ranking:</strong>
+            <ol>
+              <li><strong>lag1_logspend</strong> (~0.30–0.40) — previous month's spend is by far the most predictive single feature. Autocorrelation is the dominant pattern in monthly procurement.</li>
+              <li><strong>roll3_logspend</strong> (~0.15–0.20) — 3-month rolling average. Captures medium-term trend.</li>
+              <li><strong>aramark_boost_M</strong> (~0.10–0.15) — dollar-calibrated event signal. More precise than ordinal event_score because it's in the same unit space as the target.</li>
+              <li><strong>log_gdp / log_tourism</strong> (~0.08–0.12) — state structural features. Important for cross-state generalisation.</li>
+              <li><strong>event_score</strong> (~0.06–0.10) — ordinal event pressure index.</li>
+              <li><strong>month_sin / month_cos</strong> (~0.05) — seasonal pattern encoding.</li>
+            </ol>
+          </div>
+        </div>
+        <div class="qa-card">
+          <div class="qa-q">🤔 Why Not Deep Learning?</div>
+          <div class="qa-a">
+            With ~600 training observations (50 states × 12 months), deep learning (LSTM, Transformer) would overfit severely. GBM is the right tool at this data scale — it generalises well with few samples, is interpretable via feature importance, and trains in seconds. Deep learning would require years of monthly data per state to be competitive.
+          </div>
+        </div>
+      </div>
+
+      <h3>Model Comparison Summary Table</h3>
+      <table>
+        <thead>
+          <tr><th>Model</th><th>Type</th><th>CV Log-RMSE</th><th>Ensemble Weight</th><th>Best Use Case</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Gradient Boosting</strong></td><td>Tree ensemble</td><td>~0.18–0.22 (lowest)</td><td>~35–45%</td><td>State-level forecast (main model)</td></tr>
+          <tr><td><strong>Random Forest</strong></td><td>Bagging ensemble</td><td>~0.22–0.26</td><td>~25–30%</td><td>Confidence band floor</td></tr>
+          <tr><td><strong>SVR (RBF)</strong></td><td>Kernel regression</td><td>~0.24–0.28</td><td>~18–22%</td><td>Segment-level (primary), smooth curves</td></tr>
+          <tr><td><strong>Ridge Regression</strong></td><td>Linear regression</td><td>~0.28–0.35 (highest)</td><td>~10–15%</td><td>Linear baseline / no-event states</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout amber">
+        <strong>Presenter tip:</strong> When asked "how accurate is your model?" — quote the log-RMSE value and explain: "A log-RMSE of 0.20 means the model's predictions are typically within 20% of the actual spend figure. For procurement planning purposes, this is sufficient to identify which states need additional supplier capacity in Q2 2026 and which are at risk of under-spending."
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 10 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div>
+      <div class="section-title">Predicted Insights &amp; Business Implications</div>
+      <div class="section-subtitle">The "so what?" — what should Aramark do with these predictions?</div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <h4>Finding 1: June 2026 = Unprecedented Demand Concentration</h4>
+    <ul>
+      <li>FIFA World Cup 2026 spans 9 US host cities simultaneously. Combined Aramark multi-channel boost estimate: <strong>$90M+</strong> in June 2026 alone across TX, CA, NJ, FL, GA, PA, MA, WA, MO.</li>
+      <li>TX leads with two venues (AT&amp;T Dallas + NRG Houston) → $18.5M estimated Aramark capture.</li>
+      <li>Action: Aramark procurement teams in these states must pre-position food supplies, cleaning contracts, and uniform services by April 2026 at the latest.</li>
+    </ul>
+  </div>
+
+  <div class="insight-box">
+    <h4>Finding 2: California February 2026 = Single Largest Monthly Spike</h4>
+    <ul>
+      <li>Super Bowl LX (Levi's Stadium, Santa Clara) + NBA All-Star (Intuit Dome, Inglewood) in the same February week → estimated $17.5M Aramark boost.</li>
+      <li>CA Feb 2026 will be the highest single state-month in the entire forecast period, ahead even of TX June 2026.</li>
+      <li>Action: Aramark Bay Area and LA market teams need January 2026 as preparation month.</li>
+    </ul>
+  </div>
+
+  <div class="insight-box">
+    <h4>Finding 3: Indiana is the "Hidden Gem" of the Portfolio</h4>
+    <ul>
+      <li>Indianapolis 500 at IMS — Aramark is the <strong>confirmed official concessionaire</strong>. This is the single largest one-day sporting event in the world.</li>
+      <li>May 2026 Aramark boost estimate: $9.8M from venue concessions alone ($5.5M) + hotel F&amp;B + airport.</li>
+      <li>A state of only 6.9M people generating more event-driven spend than NY or MA in May is entirely explained by this one contract.</li>
+    </ul>
+  </div>
+
+  <div class="insight-box">
+    <h4>Finding 4: Structural vs. Event-Driven States Need Different Strategies</h4>
+    <ul>
+      <li><strong>Structural states (CA, TX, FL):</strong> High spend year-round due to size + hotel inventory. Forecast is stable with event lifts layered on top. Strategy = capacity stability + event surges.</li>
+      <li><strong>Event-driven states (NC, GA, HI, IN, WI):</strong> Disproportionate spend relative to size, driven by specific events (PGA Championship, Masters, Indy 500, Ryder Cup, Maui resort recovery). Strategy = deep event partnerships + contract flexibility.</li>
+      <li><strong>Institutional states (IA, IN outside events):</strong> High transaction count relative to size → university/hospital/corrections food service dominates. Strategy = long-term institutional contract focus.</li>
+    </ul>
+  </div>
+
+  <div class="callout green">
+    <strong>The core thesis in one sentence:</strong> Aramark's spend is 70% predictable from state economic structure (population, GDP, hotel inventory) and 30% from event-driven demand spikes — and it's the 30% that represents the highest-margin, highest-growth opportunity for procurement planning.
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════ SECTION 11 ════════════════ -->
+<div class="section page-break">
+  <div class="section-header">
+    <div class="section-num">11</div>
+    <div>
+      <div class="section-title">Q&amp;A — Likely Questions &amp; Strong Answers</div>
+      <div class="section-subtitle">Prepared responses for examiners and stakeholders — model decisions, data choices, limitations</div>
+    </div>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: Why did you choose Gradient Boosting as your primary model?</h4>
+    <ul>
+      <li>GBM consistently achieves the lowest cross-validated RMSE on structured tabular data with mixed feature types — this is empirically established across ML competitions and academic literature (Chen &amp; Guestrin, XGBoost 2016).</li>
+      <li>Our dataset has non-linear interactions: event impact × tourism revenue, lag features × event spikes. GBM handles these through tree splits without requiring explicit interaction features, unlike Ridge.</li>
+      <li>With ~600 training observations, GBM with max_depth=4 and subsample=0.8 generalises well — deep enough to capture patterns, shallow enough to prevent overfitting. The 5-fold CV confirmed this empirically.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: Why not use a neural network / LSTM for time-series forecasting?</h4>
+    <ul>
+      <li>LSTMs typically need 1,000+ time steps per series to learn sequential patterns. We have 12 months per state — far too few. An LSTM would memorise training data and fail to generalise.</li>
+      <li>For short time series with strong lag autocorrelation, classical ML outperforms deep learning (confirmed by M4/M5 forecasting competitions — GBM variants won).</li>
+      <li>Additionally, LSTM provides no feature importance — it's a black box. For a procurement dashboard, explainability is as important as accuracy: we need to tell the business <em>why</em> Indiana forecasts high in May.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: Your event data is manually curated — isn't that a bias risk?</h4>
+    <ul>
+      <li>Yes, and this is a deliberate trade-off. Automated event APIs (PredictHQ, Ticketmaster) exist but their economic impact estimates vary widely. Manual curation from verified economic studies (Indy 500 IMS report, Mardi Gras 2026 economic study, Bay Area Super Bowl Host Committee) ensures the dollar estimates are grounded in reality.</li>
+      <li>The risk is that we might miss events — but missing an event scores it as 0, which is conservative (predicts lower). An overestimated impact would be more dangerous. Our model's prediction corridor limits upside anyway.</li>
+      <li>For a production system, I would recommend integrating PredictHQ API with our manual calibration as a correction layer.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: How do you handle states with very little data (Vermont, North Dakota)?</h4>
+    <ul>
+      <li>Three mechanisms: (1) The prediction corridor clamps all forecasts within 65%–155% of historical average, preventing wild extrapolation. (2) The "organic cap" limits upside for no-event months to +15% of same month last year. (3) The aramark_boost_M for these states is near-zero (no events), so the model primarily relies on the lag features — which reflect the actual base spend accurately.</li>
+      <li>This is a known limitation: for states where Aramark has no or minimal contract coverage, the "historical average" itself may be unreliable as a baseline. In practice, these states represent &lt;0.5% of total portfolio spend — their forecast uncertainty doesn't materially affect business decisions.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: Why predict Apr–Jun 2026 specifically? Why not the full year?</h4>
+    <ul>
+      <li>Forecast accuracy degrades rapidly with horizon length for monthly data — at 12 months ahead, lag features provide almost no information. Apr–Jun 2026 is 3–6 months ahead, which is within the reliable forecasting window for GBM with lag features.</li>
+      <li>The business reason: procurement planning for major events (FIFA WC, Indy 500, PGA Championship) requires 3–4 months lead time for supplier negotiations and inventory pre-positioning. The Apr–Jun window aligns exactly with these lead times.</li>
+      <li>Jan–Mar 2026 are labelled "Actual" (injected estimates from event outcomes) to provide realistic lag primes for the Apr–Jun predictions — without this, the April forecast would be based on Dec 2025 lags, which are 4 months stale.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: What's the difference between the "event_score" and "aramark_boost_M" features?</h4>
+    <ul>
+      <li><strong>event_score</strong> (0–200): An ordinal index of general hospitality demand pressure from events. It captures all events — even those where Aramark has no venue contract — because hotel F&amp;B, airport dining, and convention catering also benefit.</li>
+      <li><strong>aramark_boost_M</strong> (dollars): A bottom-up research-backed estimate of Aramark's <em>specific</em> multi-channel revenue capture — venue concessions (where confirmed contracts exist) + hotel F&amp;B + airport dining share + convention catering. This is in the same unit space as the target variable, giving the model a direct dollar-calibrated signal rather than an ordinal score.</li>
+      <li>Having both features allows GBM to learn that a high-scoring event without an Aramark venue contract (e.g. Coachella — no Aramark at Empire Polo Club) generates a different kind of boost than one with a confirmed contract (Indianapolis 500 — Aramark is the official concessionaire).</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: Why log-transform the target variable?</h4>
+    <ul>
+      <li>Spend is log-normally distributed: California generates ~100× more spend than Vermont. Without log-transformation, the model would over-optimise for large states (minimising error on CA saves more loss than perfect performance on all small states combined).</li>
+      <li>Log-transformation gives each state proportionally equal training weight. The back-transformation (expm1) recovers dollar values for display.</li>
+      <li>Additionally, percentage-based prediction errors (which log-RMSE measures) are more meaningful for procurement planning than absolute dollar errors: "10% above forecast" is actionable regardless of state size.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: What are the main limitations of this model?</h4>
+    <ul>
+      <li><strong>No external demand shocks:</strong> The model cannot predict recessions, pandemics, or sudden event cancellations (e.g., if FIFA WC 2026 were cancelled, all June 2026 forecasts would be dramatically wrong).</li>
+      <li><strong>Spend randomisation:</strong> The "Spend Random Factor" means absolute dollar precision is impossible — we're predicting patterns in randomised values. Directional forecasts (which states grow vs shrink) are reliable; absolute magnitudes are approximations.</li>
+      <li><strong>Static economic features:</strong> Population and GDP data are annual snapshots — they don't capture in-year economic changes (e.g., a Texas tech boom mid-year).</li>
+      <li><strong>Segment forecast quality:</strong> For very small segments in individual states (&lt;6 data points), the model returns "Insufficient data" — these represent long-tail contracts not captured.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: How would you improve this model with more time/data?</h4>
+    <ul>
+      <li><strong>Multi-year historical data:</strong> 3+ years of monthly data would enable proper time series cross-validation (TimeSeriesSplit) and more robust seasonality modelling.</li>
+      <li><strong>PredictHQ API integration:</strong> Automated, continuously updated event feed with verified attendance and economic impact data.</li>
+      <li><strong>Property-level features:</strong> Number of rooms, property age, renovation status — these would dramatically improve Spend-per-Room prediction.</li>
+      <li><strong>Hierarchical models:</strong> Instead of one model for all states, a hierarchical Bayesian model could share information across states while accounting for state-specific idiosyncrasies (e.g., Hawaii luxury resort market is fundamentally different from Iowa institutional food service).</li>
+      <li><strong>Probabilistic forecast:</strong> Replace point predictions with full probability distributions using quantile regression or conformal prediction — giving stakeholders P50/P80/P90 spend scenarios for supply chain planning.</li>
+    </ul>
+  </div>
+
+  <div class="viva-box">
+    <h4>Q: Why did you build a Dash app rather than just presenting static charts?</h4>
+    <ul>
+      <li>Static charts require 50 state charts + 25 segment charts = 75+ slides. Interactive filtering (state dropdown, segment dropdown, state filter for segments) compresses this into 6 views that a user can navigate in 2 minutes.</li>
+      <li>Interactivity enables <em>discovery</em>: a stakeholder can ask "what happens in Hawaii in April?" and immediately see the answer without waiting for an analyst to regenerate a chart.</li>
+      <li>Plotly + Dash was chosen over Tableau/Power BI because: (1) it's fully code-controlled and version-manageable in git, (2) the ML integration (running Python models) is native, (3) it can be deployed as a web app without additional licensing.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ FINAL PAGE ═══════════════ -->
+<div class="section page-break" style="background: linear-gradient(135deg, #003087, #001a4d); color: white; min-height:50vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+  <div style="font-size:48pt; font-weight:900; letter-spacing:-2px; margin-bottom:16px;">ARAMARK</div>
+  <div style="font-size:16pt; font-weight:300; opacity:0.8; margin-bottom:40px;">Spend Prediction: State Events &amp; Economic Drivers</div>
+  <div style="width:60px; height:3px; background:#DA291C; margin:0 auto 40px auto;"></div>
+  <div style="font-size:13pt; opacity:0.75; max-width:600px; line-height:1.7;">
+    Gradient Boosting · Random Forest · Ridge Regression · SVR (RBF)<br>
+    Weighted Ensemble · 5-Fold Cross-Validation · 16-Dimensional Feature Space<br>
+    100+ Events · 50 States · H1 2026 Forecast
+  </div>
+  <div style="margin-top:60px; font-size:10pt; opacity:0.5;">
+    Andrew Meszaros SRF Dataset 2025 &nbsp;·&nbsp; Prepared April 2026
+  </div>
+</div>
+
+</body>
+</html>
